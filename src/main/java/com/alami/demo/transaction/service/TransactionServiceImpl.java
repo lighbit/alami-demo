@@ -62,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
 				/* SAVE TRANSACTION */
 				TransactionEntity transaction = new TransactionEntity(userEntity, Long.parseLong(request.getAmount()),
 						request.getType());
-				transaction.setCreated_at(new Date());
+				transaction.setCreated_at(request.getDate());
 				transaction.setCreated_by("System");
 				transaction.setType(Constanta.INCOMING.toString());
 				transaction = transactionRepo.save(transaction);
@@ -134,7 +134,7 @@ public class TransactionServiceImpl implements TransactionService {
 						/* SAVE TRANSACTION */
 						TransactionEntity transaction = new TransactionEntity(userEntity,
 								Long.parseLong(request.getAmount()), request.getType());
-						transaction.setCreated_at(new Date());
+						transaction.setCreated_at(request.getDate());
 						transaction.setCreated_by("System");
 						transaction.setType(Constanta.OUTGOING.toString());
 						transaction = transactionRepo.save(transaction);

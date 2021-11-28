@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alami.demo.base.Constanta;
 import com.alami.demo.base.MessageResponse;
+import com.alami.demo.transaction.entity.MoneyEntity;
 import com.alami.demo.transaction.entity.TransactionEntity;
+import com.alami.demo.transaction.repository.MoneyRepository;
 import com.alami.demo.transaction.repository.TransactionRepository;
 import com.alami.demo.transaction.service.TransactionService;
 import com.alami.demo.user.entity.TransactionRequest;
@@ -34,6 +36,9 @@ public class TransactionController {
 
 	@Autowired
 	TransactionService transactionService;
+
+	@Autowired
+	MoneyRepository moneyRepo;
 
 	@PostMapping("/incoming")
 	public @ResponseBody ResponseEntity<MessageResponse> incoming(@Valid @RequestBody TransactionRequest request) {
@@ -51,7 +56,7 @@ public class TransactionController {
 
 	@GetMapping("/all")
 	public @ResponseBody List<TransactionEntity> findAll() {
-		List<TransactionEntity> list = transactionRepo.findAllByStatus(Constanta.ACTIVE.toString());
+		List<TransactionEntity> list = transactionRepo.findAll();
 
 		return list;
 	}
@@ -62,8 +67,8 @@ public class TransactionController {
 		return transactionRepo.findById(id).get();
 	}
 
-	@DeleteMapping("/{idUser}")
-	public @ResponseBody ResponseEntity<MessageResponse> deleteID(@PathVariable("idUser") Long id) {
+	@DeleteMapping("/{idTrx}")
+	public @ResponseBody ResponseEntity<MessageResponse> deleteID(@PathVariable("idTrx") Long id) {
 		TransactionEntity entity = transactionRepo.findById(id).get();
 		entity.setStatus(Constanta.DELETED.toString());
 		entity.setUpdated_by("System");
@@ -71,6 +76,13 @@ public class TransactionController {
 		transactionRepo.save(entity);
 
 		return ResponseEntity.ok(new MessageResponse("User Deleted successfully!"));
+	}
+	
+	@GetMapping("/money")
+	public @ResponseBody List<MoneyEntity> getMoney() {
+		List<MoneyEntity> list = moneyRepo.findAll();
+
+		return list;
 	}
 
 }

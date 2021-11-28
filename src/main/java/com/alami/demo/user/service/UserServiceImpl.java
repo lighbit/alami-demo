@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 			userEntity.setStatus(Constanta.ACTIVE.toString());
 			userRepo.save(userEntity);
 
-			return ResponseEntity.ok(new MessageResponse("User Registered successfully!"));
+			return ResponseEntity.ok(new MessageResponse("Customer Registered successfully!"));
 
 		} else {
 
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 			userEntity.setUpdated_by("System");
 			userRepo.save(userEntity);
 
-			return ResponseEntity.ok(new MessageResponse("User Update successfully!"));
+			return ResponseEntity.ok(new MessageResponse("Customer Update successfully!"));
 		}
 
 	}

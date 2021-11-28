@@ -63,7 +63,7 @@ public class UserController {
 		entity.setUpdated_at(new Date());
 		userRepo.save(entity);
 
-		return ResponseEntity.ok(new MessageResponse("User Deleted successfully!"));
+		return ResponseEntity.ok(new MessageResponse("Customer Deleted successfully!"));
 	}
 
 }

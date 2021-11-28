@@ -1,8 +1,11 @@
 package com.alami.demo.user.entity;
 
+import java.util.Date;
+
 public class TransactionRequest {
 
 	private String agentid;
+	public Date date;
 	private String amount;
 	private String type;
 
@@ -12,6 +15,14 @@ public class TransactionRequest {
 
 	public void setAgentid(String agentid) {
 		this.agentid = agentid;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public String getAmount() {

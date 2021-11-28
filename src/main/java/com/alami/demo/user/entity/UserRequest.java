@@ -5,7 +5,6 @@ import java.util.Date;
 public class UserRequest {
 
 	private Long id;
-	private String agentid;
 	private String name;
 	private Date born;
 	private String address;
@@ -16,14 +15,6 @@ public class UserRequest {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getAgentid() {
-		return agentid;
-	}
-
-	public void setAgentid(String agentid) {
-		this.agentid = agentid;
 	}
 
 	public String getName() {
