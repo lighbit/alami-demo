@@ -61,8 +61,8 @@ public class TransactionController {
 		return list;
 	}
 
-	@GetMapping("/{idUser}")
-	public @ResponseBody TransactionEntity findByID(@PathVariable("idUser") Long id) {
+	@GetMapping("/{idTrx}")
+	public @ResponseBody TransactionEntity findByID(@PathVariable("idTrx") Long id) {
 
 		return transactionRepo.findById(id).get();
 	}

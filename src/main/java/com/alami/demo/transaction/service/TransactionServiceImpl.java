@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public ResponseEntity<MessageResponse> saveTransactionIncoming(TransactionRequest request) {
+
+		if (request.getDate().after(new Date())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("You can't select date more than today"));
+		}
 
 		UserEntity userEntity = userRepo.findByAgentid(request.getAgentid()).get();
 
@@ -99,6 +104,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public ResponseEntity<MessageResponse> saveTransactionOutgoing(TransactionRequest request) {
+
+		if (request.getDate().after(new Date())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("You can't select date more than today"));
+		}
 
 		UserEntity userEntity = userRepo.findByAgentid(request.getAgentid()).get();
 
@@ -165,7 +174,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 	}
 
-//	@Scheduled(cron = "* * * ? * *")
+	@Scheduled(cron = "* * * ? * *")
 	public void calibrateMoney() {
 		Long money = Long.parseLong("0");
 		List<MoneyEntity> getList = moneyRepo.findAll();
@@ -175,7 +184,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 			List<TransactionEntity> listTransaction = transactionRepo.findAll();
 			for (TransactionEntity transactionEntity : listTransaction) {
-				money += transactionEntity.getAmount();
+				if (transactionEntity.getType().equals(Constanta.INCOMING.toString())) {
+					money += transactionEntity.getAmount();
+				} else {
+					money -= transactionEntity.getAmount();
+				}
 			}
 			moneyEntity.setAmount(money);
 			moneyEntity.setLast_calibrate(new Date());

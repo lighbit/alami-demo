@@ -23,6 +23,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<MessageResponse> saveUser(UserRequest request) {
 
+		if (request.getName().length() <= 3) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Name Must more than 3 Character!"));
+		}
+
 		if (request.getId() == null) {
 
 			String agentId;
